@@ -8,6 +8,8 @@ import dayjs from "./../../node_modules/dayjs/esm/index";
 import { categoryApi } from "../api/categories";
 import MonthPicker from "../components/MonthPicker";
 import DayStrip from "../components/DayStrip";
+import { toast } from "sonner";
+
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -99,8 +101,10 @@ const Expenses = () => {
   const handleFormSubmit = async (formData) => {
     if (editingExpense) {
       await expenseApi.update(editingExpense.id, formData);
+      toast.success("บันทึกรายการแล้ว");
     } else {
       await expenseApi.create(formData);
+      toast.success("บันทึกรายการแล้ว");
     }
     setShowForm(false);
     loadExpense();
@@ -110,6 +114,7 @@ const Expenses = () => {
     if (!confirm("ยืนยันการลบรายการนี้")) return;
     await expenseApi.delete(id);
     loadExpense();
+    toast.success("ลบรายการแล้ว");
   };
   return (
     <div className="min-h-screen">
@@ -119,7 +124,7 @@ const Expenses = () => {
           <h2 className="font-display text-2xl">รายการทั้งหมด</h2>
           <button
             onClick={openAddForm}
-            className="bg-ledger text-white px-4 py-2 text-sm hover:bg-ledger-light transition-colors rounded-full"
+            className="bg-ledger text-white px-4 py-2 text-sm hover:bg-ledger-light transition-colors rounded-full cursor-pointer"
           >
             + เพิ่มรายการ
           </button>
@@ -132,7 +137,6 @@ const Expenses = () => {
               onChange={setMonthFilter}
               monthsWithData={monthsWithData}
             />
-            
 
             <div className="relative space-x-1">
               {[
@@ -168,13 +172,13 @@ const Expenses = () => {
           </div>
         </div>
         <div className="mb-5 mt-7">
-  <DayStrip
-    month={monthFilter}
-    value={dayFilter}
-    onChange={setDayFilter}
-    daysWithData={daysWithData}
-  />
-</div>
+          <DayStrip
+            month={monthFilter}
+            value={dayFilter}
+            onChange={setDayFilter}
+            daysWithData={daysWithData}
+          />
+        </div>
 
         {loading && <p className="text-ink/50">กำลังโหลด...</p>}
         {error && <p className="text-expense">{error}</p>}

@@ -139,7 +139,7 @@ const BudgetForm = ({
         <button
           type="submit"
           disabled={submitting || !categoryId || allUsed}
-          className="flex-1 bg-ledger text-white py-2.5 hover:bg-ledger-light transition-colors disabled:opacity-50 rounded-2xl"
+          className="flex-1 bg-ledger text-white py-2.5 hover:bg-ledger-light transition-colors disabled:opacity-50 rounded-2xl cursor-pointer"
         >
           {submitting
             ? "กำลังบันทึก..."
@@ -151,7 +151,7 @@ const BudgetForm = ({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2.5 border border-paper-line text-ink/70 hover:bg-paper-line/30 rounded-2xl"
+            className="px-4 py-2.5 border border-paper-line text-ink/70 hover:bg-paper-line/30 rounded-2xl cursor-pointer"
           >
             ยกเลิก
           </button>

@@ -1,26 +1,32 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./../context/useAuth";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const notice = sessionStorage.getItem("authNotice");
+    if (notice) {
+      toast.info(notice);
+      sessionStorage.removeItem("authNotice");
+    }
+  }, []);
+
   const hanldeSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+
     setLoading(true);
     try {
       await login(email, password);
       navigate("/");
-    } catch (err) {
-      setError(
-        err.response?.data?.error || "เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่",
-      );
     } finally {
       setLoading(false);
     }
@@ -34,12 +40,6 @@ const Login = () => {
         <p className="text-sm text-ink/60 mb-8">
           เข้าสู่ระบบเพื่อดูรายวัน-รายจ่ายของคุณ
         </p>
-
-        {error && (
-          <div className="mb-4 text-sm text-expense border border-expense/30 bg-expense/5 px-3 py-2">
-            {error}
-          </div>
-        )}
 
         <form onSubmit={hanldeSubmit} className="space-y-4">
           <div>

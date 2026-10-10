@@ -6,6 +6,7 @@ import BudgetForm from "../components/BudgetForm";
 import Modal from "./../components/Modal";
 import dayjs from "./../../node_modules/dayjs/esm/index";
 import { categoryApi } from "../api/categories";
+import { toast } from "sonner";
 
 const Budgets = () => {
   const [budgets, setBudgets] = useState([]);
@@ -43,7 +44,7 @@ const Budgets = () => {
     try {
       const data = await categoryApi.getAll();
 
-      setCategories(data.filter((d)=>d.type === 'expense'));
+      setCategories(data.filter((d) => d.type === "expense"));
     } catch {
       setCategoryError("โหลดหมวดหมู่ไม่สำเร็จ");
     }
@@ -64,8 +65,10 @@ const Budgets = () => {
   const handleFormSubmit = async (formData) => {
     if (editingBudget) {
       await budgetApi.update(editingBudget.id, formData);
+      toast.success("บันทึกรายการแล้ว");
     } else {
       await budgetApi.create(formData);
+      toast.success("บันทึกรายการแล้ว");
     }
     setShowForm(false);
     loadBudget();
@@ -75,6 +78,7 @@ const Budgets = () => {
     if (!confirm("ยืนยันการลบรายการนี้")) return;
     await budgetApi.delete(id);
     loadBudget();
+    toast.success("ลบรายการแล้ว");
   };
   return (
     <div className="min-h-screen">
@@ -84,7 +88,7 @@ const Budgets = () => {
           <h2 className="font-display text-2xl">จัดการงบประมาณ</h2>
           <button
             onClick={openAddForm}
-            className="bg-ledger text-white px-4 py-2 text-sm hover:bg-ledger-light transition-colors rounded-full"
+            className="bg-ledger text-white px-4 py-2 text-sm hover:bg-ledger-light transition-colors rounded-full cursor-pointer"
           >
             + เพิ่มรายการ
           </button>

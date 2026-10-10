@@ -33,14 +33,14 @@ const BudgetTable = ({ budgets, onEdit, onDelete,  onAdd }) => {
               <td className="py-3 text-center space-x-3">
                 <button
                   onClick={() => onEdit(exp)}
-                  className="text-ledger hover:underline"
+                  className="text-ledger hover:underline cursor-pointer"
                 >
                   แก้ไข
                 </button>
 
                 <button
                   onClick={() => onDelete(exp.id)}
-                  className="text-expense hover:underline"
+                  className="text-expense hover:underline cursor-pointer"
                 >
                   ลบ
                 </button>
