@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Environment variables (มี secret ห้าม push)
+.env
+.env.*
+!.env.example
+
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
