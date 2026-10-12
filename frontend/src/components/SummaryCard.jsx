@@ -8,11 +8,11 @@ const SummaryCard = ({summary}) => {
    
     ]
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-paper-line border border-paper-line mb-8">
+    <div className="grid grid-cols-3 gap-px bg-paper-line border border-paper-line mb-8 rounded-2xl px-1">
         {cards.map((card) => (
-            <div key={card.label} className="bg-paper p-5">
-                <p className="text-sm text-ink/50 mb-1">{card.label}</p>
-                <p className={`font-display text-2xl tabular ${card.color}`}>
+            <div key={card.label} className="bg-paper p-5 text-center md:text-start">
+                <p className="text-[5px] md:text-sm text-ink/50 mb-1">{card.label}</p>
+                <p className={`font-display  text-[10px] md:text-2xl tabular ${card.color}`}>
                     ฿{formatMoney(card.value)}
                 </p>
             </div>

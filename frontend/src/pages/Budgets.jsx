@@ -94,8 +94,8 @@ const Budgets = () => {
           </button>
         </div>
 
-        <div className="flex mb-5 justify-between items-center">
-          <div className="flex gap-2 py-2  text-sm ">
+        <div className="md:flex mb-5 md:justify-between md:items-center">
+          <div className="flex flex-wrap gap-2 py-2  text-sm ">
             <div className="relative">
               <input
                 value={monthFilter}
@@ -108,10 +108,10 @@ const Budgets = () => {
               </p>
             </div>
           </div>
-          <div className="border border-gray-300 rounded-2xl py-1 px-2">
+          <div className="flex w-full items-center border border-gray-300 rounded-2xl py-1.5 px-3 md:w-auto">
             <input
               type="text"
-              className="focus:outline-none text-sm"
+              className="min-w-0 flex-1 focus:outline-none md:text-sm"
               placeholder="ค้นหารายการ"
               onChange={(e) => setSearchCategory(e.target.value)}
             />

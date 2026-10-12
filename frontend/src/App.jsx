@@ -1,5 +1,5 @@
-import { BrowserRouter, Route, Routes  } from "react-router-dom";
-import { Toaster } from 'sonner'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
 import { AuthProvider } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,7 +13,7 @@ const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes >
+        <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
@@ -43,7 +43,7 @@ const App = () => {
             }
           />
 
-           <Route
+          <Route
             path="/budgets"
             element={
               <ProtectedRoute>
@@ -53,10 +53,13 @@ const App = () => {
           />
         </Routes>
       </BrowserRouter>
-       <Toaster
-        position="top-center"
+      <Toaster
+        position="bottom-right"
+        duration={2500}
+        closeButton
         richColors
-        toastOptions={{ style: { fontFamily: 'inherit' } }}
+        offset={16}
+        toastOptions={{ style: { fontFamily: "inherit" } }}
       />
     </AuthProvider>
   );

@@ -9,12 +9,14 @@ const DayStrip = ({ month, value, onChange, daysWithData = [] }) => {
 
   return (
     <div className="relative">
-      <p className="absolute -top-5 text-gray-400 text-[10px]">วันที่</p>
+      <div className="flex gap-2">
+        <p className="  text-gray-400 text-[10px]">วันที่</p>
 
-      <p className="absolute -top-5 left-8 text-[10px] text-gray-400">
-        (<span className="w-1.5 h-1.5 rounded-full bg-ledger inline-block" />{" "}
-        มีข้อมูล)
-      </p>
+        <p className="   text-[10px] text-gray-400">
+          (<span className="w-1.5 h-1.5 rounded-full bg-ledger inline-block" />{" "}
+          มีข้อมูล)
+        </p>
+      </div>
       <div className="flex gap-1 overflow-x-auto max-w-full pb-1">
         {days.map(({ n, key }) => {
           const selected = key === value;
