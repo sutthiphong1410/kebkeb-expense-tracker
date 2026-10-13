@@ -51,7 +51,7 @@ const Register = () => {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors"
+              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors rounded-2xl"
               placeholder="ชื่อของคุณ"
             />
           </div>
@@ -63,7 +63,7 @@ const Register = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors"
+              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors rounded-2xl"
               placeholder="you@example.com"
             />
           </div>
@@ -75,14 +75,14 @@ const Register = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors"
+              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors rounded-2xl"
               placeholder="อย่างน้อย 6 ตัวอักษร"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-ledger text-white py-2.5 hover:bg-ledger-light transition-colors disabled:opacity-50"
+            className="w-full bg-ledger text-white py-2.5 hover:bg-ledger-light cursor-pointer transition-colors disabled:opacity-50 rounded-2xl"
           >
             {loading ? "กำลังเข้าสู่่ระบบ" : "เข้าสู่ระบบ"}
           </button>

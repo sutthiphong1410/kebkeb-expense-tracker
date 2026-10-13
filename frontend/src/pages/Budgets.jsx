@@ -84,7 +84,7 @@ const Budgets = () => {
     <div className="min-h-screen">
       <Navbar />
       <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 pt-8 ">
           <h2 className="font-display text-2xl">จัดการงบประมาณ</h2>
           <button
             onClick={openAddForm}

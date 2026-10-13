@@ -49,7 +49,7 @@ const Login = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors"
+              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors rounded-2xl"
               placeholder="your@example.com"
             />
           </div>
@@ -61,14 +61,14 @@ const Login = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors"
+              className="w-full border border-paper-line bg-white px-3 py-2 outline-none focus:border-ledger transition-colors rounded-2xl"
               placeholder="••••••••"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-ledger text-white py-2.5 hover:bg-ledger transition-colors disabled:opacity-50"
+            className="w-full bg-ledger text-white py-2.5 hover:bg-ledger-light cursor-pointer transition-colors disabled:opacity-50 rounded-2xl"
           >
             {loading ? "กำลังเข้าสู่ระบบ" : "เข้าสู่ระบบ"}
           </button>
