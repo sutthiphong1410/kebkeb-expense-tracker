@@ -16,7 +16,10 @@ const defaultCategories = [
 ]
 
 const register = async (req, res) => {
-    const { email, password, name } = req.body
+    const { password, name } = req.body
+    const email = typeof req.body.email === 'string'
+        ? req.body.email.trim().toLowerCase()
+        : ''
 
     if (!email || !password || !name) {
         return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทั้ง (email, password, name)' })
@@ -66,31 +69,33 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body
+    const { password } = req.body
+    const email = typeof req.body.email === 'string'
+        ? req.body.email.trim().toLowerCase()
+        : ''
 
     if (!email || !password) {
-        return res.status(400).json({ error: 'กรุณากรอก email และ password' })
+        return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทั้ง (email, password)' })
     }
-
     try {
         const { rows: [user] } = await pool.query('SELECT * FROM users WHERE email = $1', [email])
 
-        if(!user){
-            return res.status(401).json({ error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'})
+        if (!user) {
+            return res.status(401).json({ error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' })
         }
 
-        const isValid  = await bcrypt.compare(password, user.password_hash)
-        if(!isValid){
-            return res.status(401).json({ error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'})
+        const isValid = await bcrypt.compare(password, user.password_hash)
+        if (!isValid) {
+            return res.status(401).json({ error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' })
         }
 
         res.json({
             token: generateToken(user.id),
-            user: { id: user.id, name: user.name, email: user.email}
+            user: { id: user.id, name: user.name, email: user.email }
         })
     } catch (err) {
-        console.error('login error:',err)
-        res.status(500).json({error:'เกิดข้อผิดพลาดของเซิร์ฟเวอร์'})
+        console.error('login error:', err)
+        res.status(500).json({ error: 'เกิดข้อผิดพลาดของเซิร์ฟเวอร์' })
     }
 }
 
