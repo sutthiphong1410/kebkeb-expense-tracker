@@ -125,7 +125,7 @@ const Expenses = () => {
     <div className="min-h-screen">
       <Navbar />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-8">
-        <div className="flex items-center justify-between gap-3 mb-5 pt-8 md:mb-6">
+        <div className="flex items-center justify-between gap-3 mb-5 md:mb-6">
           <h2 className="font-display text-xl md:text-2xl">รายการทั้งหมด</h2>
           <button
             onClick={openAddForm}
@@ -146,6 +146,7 @@ const Expenses = () => {
             <div className="flex flex-col items-start gap-1">
               <p className="text-xs text-gray-400">ประเภท</p>
 
+             
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
@@ -188,7 +189,7 @@ const Expenses = () => {
         </div>
 
         <div className="mb-5  max-w-full overflow-x-auto">
-          <p className="absolute -top-10 text-gray-400 text-[10px]">วันที่</p>
+             <p className="absolute -top-10 text-gray-400 text-[10px]">วันที่</p>
           <DayStrip
             month={monthFilter}
             value={dayFilter}

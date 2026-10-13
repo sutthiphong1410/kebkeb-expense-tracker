@@ -43,7 +43,7 @@ const Dashboard = () => {
     <div className="min-h-screen">
       <Navbar />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-8">
-        <div className="flex items-center justify-between pt-8 gap-3 mb-6">
+        <div className="flex items-center justify-between gap-3 mb-6">
           <h2 className="font-display text-xl md:text-2xl">ภาพรวมการเงิน</h2>
           <input
             type="month"

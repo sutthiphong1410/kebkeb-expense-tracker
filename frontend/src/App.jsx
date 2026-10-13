@@ -8,11 +8,13 @@ import Dashboard from "./pages/Dashboard";
 import Expenses from "./pages/Expenses";
 import Budgets from "./pages/Budgets";
 import Categories from "./pages/Categories";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
