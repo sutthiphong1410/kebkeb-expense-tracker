@@ -8,6 +8,7 @@ REST API สำหรับแอปติดตามรายรับ-รา�
 - **PostgreSQL** (`pg`) — database (production ใช้ [Neon](https://neon.tech))
 - **JWT** (`jsonwebtoken`) — authentication
 - **bcryptjs** — password hashing
+- **cors** — จำกัด origin ของ frontend
 
 ## วิธีรัน (Local Development)
 
@@ -23,11 +24,18 @@ docker run --name pg-local -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=myapp -p 5
 
 ```bash
 npm install
-cp .env.example .env   # แล้วแก้ JWT_SECRET เป็นค่าของตัวเอง
-npm run dev            # รันด้วย nodemon (auto-restart เวลาแก้โค้ด)
+cp .env.example .env   # แก้ JWT_SECRET เป็นค่าของตัวเอง
+npm run dev            # รันด้วย nodemon
 ```
 
-Server จะรันที่ http://localhost:5000 และสร้างตารางให้อัตโนมัติตอนเริ่มทำงาน
+เซิร์ฟเวอร์รันที่ http://localhost:5000 และสร้างตารางให้อัตโนมัติตอนเริ่มทำงาน
+
+## Scripts
+
+| คำสั่ง | หน้าที่ |
+|---|---|
+| `npm run dev` | รันด้วย nodemon (auto-restart) |
+| `npm start` | รันแบบ production |
 
 ## Environment Variables
 
@@ -37,6 +45,7 @@ Server จะรันที่ http://localhost:5000 และสร้าง�
 | `DATABASE_URL` | connection string ของ PostgreSQL (production ต้องลงท้าย `?sslmode=require`) |
 | `JWT_SECRET` | คีย์สำหรับเซ็น JWT (production ใช้สตริงสุ่มยาวๆ) |
 | `JWT_EXPIRES_IN` | อายุ token เช่น `7d` |
+| `FRONTEND_URL` | origin ของ frontend ที่อนุญาต (CORS) ไม่มี `/` ท้าย คั่นหลายค่าด้วย comma เช่น `https://kebkeb.netlify.app,http://localhost:5173` |
 
 ## API Endpoints
 
@@ -52,7 +61,7 @@ Server จะรันที่ http://localhost:5000 และสร้าง�
 
 | Method | Endpoint | Body | คำอธิบาย |
 |---|---|---|---|
-| POST | `/api/auth/register` | `{ email, password, name }` | สมัครสมาชิก (สร้างหมวดหมู่เริ่มต้นให้) |
+| POST | `/api/auth/register` | `{ email, password, name }` | สมัครสมาชิก (สร้างหมวดหมู่เริ่มต้นให้ อีเมลถูกแปลงเป็นตัวพิมพ์เล็ก) |
 | POST | `/api/auth/login` | `{ email, password }` | เข้าสู่ระบบ |
 
 ### Categories
@@ -63,7 +72,7 @@ Server จะรันที่ http://localhost:5000 และสร้าง�
 | GET | `/api/categories/:id` | ดึงรายการเดียว |
 | POST | `/api/categories` | สร้างใหม่ `{ name, type }` |
 | PUT | `/api/categories/:id` | แก้ไข |
-| DELETE | `/api/categories/:id` | ลบ (ลบไม่ได้ถ้ามี expense/budget ผูกอยู่) |
+| DELETE | `/api/categories/:id` | ลบ (ลบไม่ได้ถ้ามี expense/budget ผูกอยู่ ตอบ 409) |
 
 ### Expenses
 
@@ -85,19 +94,26 @@ Server จะรันที่ http://localhost:5000 และสร้าง�
 | GET | `/api/budgets` | ดึงทั้งหมด (`?category=&month=`) |
 | GET | `/api/budgets/summary` | งบเทียบยอดใช้จริง (`?month=YYYY-MM`) |
 | GET | `/api/budgets/:id` | ดึงรายการเดียว |
-| POST | `/api/budgets` | สร้างงบ `{ category_id, amount, month }` (ถ้ามีของหมวด+เดือนนั้นแล้วจะอัปเดตยอด) |
+| POST | `/api/budgets` | สร้างงบ `{ category_id, amount, month }` (ถ้ามีของหมวด+เดือนนั้นแล้วจะอัปเดตยอด ตอบ 200) |
 | PUT | `/api/budgets/:id` | แก้ไข |
 | DELETE | `/api/budgets/:id` | ลบ |
 
 ## Database Schema
 
 - **users**: id, email (unique), password_hash, name, created_at
-- **categories**: id, user_id (FK → users), name, type (income/expense), is_active, created_at, updated_at — unique (user_id, name, type)
-- **expenses**: id, user_id (FK → users), category_id (FK → categories), amount, description, type (income/expense), date, created_at
-- **budgets**: id, user_id (FK → users), category_id (FK → categories), amount, month (YYYY-MM), created_at, updated_at — unique (user_id, category_id, month)
+- **categories**: id, user_id (FK), name, type (income/expense), is_active, created_at, updated_at — unique (user_id, name, type)
+- **expenses**: id, user_id (FK), category_id (FK), amount (NUMERIC 12,2), description, type (income/expense), date (DATE), created_at
+- **budgets**: id, user_id (FK), category_id (FK), amount (NUMERIC 12,2), month (YYYY-MM), created_at, updated_at — unique (user_id, category_id, month)
+
+## ความปลอดภัย
+
+- รหัสผ่านเก็บแบบ hash ด้วย bcrypt
+- ทุก query ใช้ parameterized query (กัน SQL injection)
+- ตรวจ `user_id` ทุก query จึงเข้าถึงได้เฉพาะข้อมูลของตัวเอง และตรวจว่า `category_id` เป็นของผู้ใช้คนนั้น
+- CORS จำกัดเฉพาะ origin ใน `FRONTEND_URL`
 
 ## Deploy
 
-- Database: [Neon](https://neon.tech) (Postgres)
+- Database: [Neon](https://neon.tech)
 - Server: [Render](https://render.com) — Root Directory `backend`, Build `npm install`, Start `npm start`
-- ตั้ง `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN` ใน Environment ของ Render
+- ตั้ง `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `FRONTEND_URL` ใน Environment ของ Render
