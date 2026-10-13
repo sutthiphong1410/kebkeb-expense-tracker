@@ -17,6 +17,7 @@ body {
   font-family: "Kanit", sans-serif;
   background-color: var(--color-paper);
   color: var(--color-ink);
+  overflow-x: clip;
 }
 
 h1,

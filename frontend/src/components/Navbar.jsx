@@ -65,7 +65,7 @@ export default function Navbar() {
 
       {/* เมนูมือถือ (กางลง) */}
       {open && (
-        <nav className="border-t border-stone-200 px-4 pb-3 text-sm md:hidden">
+      <nav className="absolute inset-x-0 top-full border-b border-stone-200 bg-white px-4 pb-3 text-sm shadow-md md:hidden">
           {links.map((l) => (
             <NavLink
               key={l.to}

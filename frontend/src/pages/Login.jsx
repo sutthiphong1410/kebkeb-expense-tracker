@@ -55,7 +55,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="block text-sm mb-1 text-ink/70">รหัสผ่น</label>
+            <label className="block text-sm mb-1 text-ink/70">รหัสผ่าน</label>
             <input
               type="password"
               required
