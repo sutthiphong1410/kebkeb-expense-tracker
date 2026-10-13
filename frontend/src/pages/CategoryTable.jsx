@@ -1,12 +1,23 @@
 const CategoryTable = ({ categories, type, onEdit, onDelete, onAdd }) => {
   if (categories.length === 0) {
     return (
-      <div
-        onClick={onAdd}
-        className="text-center py-16 text-ink/50 border border-dashed border-ink/30 flex items-center justify-center rounded-2xl  cursor-pointer"
-      >
-        <p> ยังไม่มีรายการ เพิ่มรายการแรกของคุณได้เลย</p>
-        <i className="fa fa-circle-plus p-3 text-2xl"></i>
+      <div>
+        <h1
+          className={
+            type === "expense"
+              ? "font-light py-2 text-expense"
+              : "font-light py-2 text-income"
+          }
+        >
+          {type == "expense" ? "รายจ่าย" : "รายได้"}
+        </h1>
+        <div
+          onClick={onAdd}
+          className="text-center py-16 text-ink/50 border border-dashed border-ink/30 flex items-center justify-center rounded-2xl  cursor-pointer"
+        >
+          <p> ยังไม่มีรายการ เพิ่มรายการแรกของคุณได้เลย</p>
+          <i className="fa fa-circle-plus p-3 text-2xl"></i>
+        </div>
       </div>
     );
   }
